@@ -21,6 +21,7 @@ data("penguins")
 
 # First 6 rows
 head(penguins)
+View(penguins)
 
 # First and last 6 rows HTML table
 formattable(head(penguins))
@@ -61,6 +62,32 @@ penguins |>
   xlab("Bill length (mm)") +
   ylab("Bill depth (mm)") +
   ggtitle("Relationship between bill length and depth")
+
+#boxplot based on sex and species
+penguins |>
+  group_by(species) |>
+  select(bill_length_mm , sex)|>
+  na.omit()|>
+  ggplot(aes(x = species, y = bill_length_mm, fill = sex)) +
+  geom_boxplot() +
+  theme_minimal(base_size = 16) +
+  xlab(NULL) +
+  ylab("Bill length (mm)") +
+  ggtitle("Penguin species Bill lengths") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+#violin plot based on sex species
+penguins |>
+  group_by(species) |>
+  select(flipper_length_mm , sex)|>
+  na.omit()|>
+  ggplot(aes(x = species, y = flipper_length_mm, fill = sex)) +
+  geom_violin() +
+  theme_minimal(base_size = 16) +
+  xlab(NULL) +
+  ylab("flipper length (mm)") +
+  ggtitle("Penguin species Bill lengths") +
+  theme(plot.title = element_text(hjust = 0.5))
 
 # Write .csv
 # Log transform a dataset
