@@ -1,0 +1,43 @@
+---
+title: "stats_practice"
+author: "Nicole Jimenez"
+date: "2022-10-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages("gitcreds")
+#install.packages("usethis")
+
+#set github
+
+usethis::create_github_token()
+#login and make token
+#copy and past token here
+
+gitcreds::gitcreds_set()
+#Selection : your_token
+
+
+#access .r environment
+usethis::edit_r_environ()
+#github path should be token
+
+#activate git/make prokect repository
+usethis::use_git(message = "adding stats project")
+
+```
+
+
+
+```{r cars}
+summary(cars)
+```
+
+
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
