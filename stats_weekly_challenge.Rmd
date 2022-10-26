@@ -12,30 +12,46 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #set github
 
-usethis::create_github_token()
-#login and make token
-#copy and past token here
-
-gitcreds::gitcreds_set()
-#Selection : your_token
-
-
-#access .r environment
-usethis::edit_r_environ()
-#github path should be token
-
-#activate git/make prokect repository
-usethis::use_git(message = "adding stats project")
+# usethis::create_github_token()
+# #login and make token
+# #copy and past token here
+# 
+# gitcreds::gitcreds_set()
+# #Selection : your_token
+# 
+# 
+# #access .r environment
+# usethis::edit_r_environ()
+# #github path should be token
+# 
+# #activate git/make prokect repository
+# usethis::use_git(message = "adding stats project")
 
 ```
 
 
 
-```{r cars}
-summary(cars)
+```{r}
+##set up libraries
+library(dplyr)
+library(tidyverse)
+library(readr)
+library(ggplot2)
+library(data.table)
 ```
 
+```{r}
+##load feature data - species
+Cer_vaginal_species_feature <-
+  read_csv("C:/Users/nicolejimenez/OneDrive - University of Arizona/Desktop/Atopobium/cervical_cancer_NAU/cervical_cancer_NAU_level_7_taxa_table.csv")
 
+```
+
+```{r}
+#load metadata check to make sure it is csv not txt!
+Cer_AV_vag_meta <- read_csv("C:/Users/nicolejimenez/OneDrive - University of Arizona/Desktop/Atopobium/cervical_cancer_NAU/Cervical_cancer_NAU_metadata_level_7.txt")
+View(Cer_AV_vag_meta)
+```
 
 ```{r pressure, echo=FALSE}
 plot(pressure)
