@@ -35,25 +35,63 @@ knitr::opts_chunk$set(echo = TRUE)
 ##set up libraries
 library(dplyr)
 library(tidyverse)
+library(caret)
 library(readr)
 library(ggplot2)
 library(data.table)
 ```
-
+Load Data
 ```{r}
 ##load feature data - species
 Cer_vaginal_species_feature <-
   read_csv("C:/Users/nicolejimenez/OneDrive - University of Arizona/Desktop/Atopobium/cervical_cancer_NAU/cervical_cancer_NAU_level_7_taxa_table.csv")
-
+View(Cer_vaginal_species_feature)
 ```
 
 ```{r}
 #load metadata check to make sure it is csv not txt!
-Cer_AV_vag_meta <- read_csv("C:/Users/nicolejimenez/OneDrive - University of Arizona/Desktop/Atopobium/cervical_cancer_NAU/Cervical_cancer_NAU_metadata_level_7.txt")
+Cer_AV_vag_meta <- read_csv("C:/Users/nicolejimenez/OneDrive - University of Arizona/Desktop/Atopobium/cervical_cancer_NAU/Cervical_cancer_NAU_metadata_level_7.csv")
 View(Cer_AV_vag_meta)
 ```
+Statistical Question:
+Does the number of Atopobiaceae species types affect the genital inflammatory score?
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+Null hypothesis: The number of Atopobiaceae species types does not affect genital inflammatory score
+Alternate hypothesis: the number of Atopobiacea species types does affect the genital inflammatory score
+
+```{r , echo=TRUE}
+model <- lm(T_infl_score_flt ~ Atopobiaceae_types, data = Cer_AV_vag_meta)
+summary(model)$coef
+```
+genital inflammation = 1.369 + 0.284*Atopobiaceae_species
+
+```{r , echo=TRUE}
+ggplot(Cer_AV_vag_meta, aes(x = Atopobiaceae_types, y = T_infl_score_flt)) +
+  geom_point() +
+  stat_smooth()
+```
+Since the data is in groups there is no correlation observed, let's try with more true continous variables...
+The null hypothesis is not rejected. 
+
+
+New Statistical Question:
+Does the number of BMI affect the genital inflammatory score?
+
+Null hypothesis: The number of BMI does not affect genital inflammatory score
+Alternate hypothesis: the number of BMI does affect the genital inflammatory score
+
+```{r , echo=TRUE}
+model <- lm(T_infl_score_flt ~ F_pcov_BMI, data = Cer_AV_vag_meta)
+summary(model)$coef
+```
+genital inflammation = 3.356 - 0.052*BMI
+
+```{r , echo=TRUE}
+ggplot(Cer_AV_vag_meta, aes(x = F_pcov_BMI
+, y = T_infl_score_flt)) +
+  geom_point() +
+  stat_smooth()
 ```
 
+In this dataset there is a weak negative correlation observed with genital inflammation score. Meaning women with higher BMI tend to have lower genital inflammation which is counter-intuitive since obesity is associated with systemic inflammation. That said the inflammation level is a score an not based on a true continous variable such as inflammatory cytokine levels. 
+The null hypothesis is rejected.
